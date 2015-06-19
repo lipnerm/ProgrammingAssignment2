@@ -1,4 +1,6 @@
-## Caches a matrix
+# Make a matrix into an object with
+# properties required for later
+# calculating the inverse
 
 makeCacheMatrix <- function(x = matrix()) {
   m <- NULL
@@ -14,15 +16,22 @@ makeCacheMatrix <- function(x = matrix()) {
        getinv = getinv)
 }
 
-## Calculates the inverse of a matrix
+# Uses the object created by makeCacheMatrix
+# to cache the inverse of the matrix
+# if no inverse has already been cached
 
-cachematrix <- function(x, ...) {
-  m <- x$getinv()
-  if(!is.null(m)) {
-    return(m)
+cachematrix <- function(q, ...) {
+  qinv <- q$getinv()
+  if(!is.null(qinv)) {
+    print("using cache data")
+    return(qinv)
   }
-  data <- x$get()
-  m <- solve(data, ...)
-  x$setinv(m)
-  return(m)
+  
+# If an inverse is not already cached,
+# calculate the inverse of the matrix
+  
+  data <- q$get()
+  qinv <- solve(data, ...)
+  q$setinv(qinv)
+  return(qinv)
 }
