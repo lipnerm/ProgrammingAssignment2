@@ -1,26 +1,28 @@
 ## Caches a matrix
 
-makeCacheMatrix <- function(matrix = matrix()) {
-    inverse <- NULL
-    set <- function(x) {
-        matrix <<- x;
-        inverse <<- NULL;
-    }
-    get <- function() return(matrix);
-    setinv <- function(inv) inverse <<- inv;
-    getinv <- function() return(inverse);
-    return(list)
+makeCacheMatrix <- function(x = matrix()) {
+  m <- NULL
+  set <- function(y) {
+    x <<- y
+    m <<- NULL
+  }
+  get <- function() return(x)
+  setinv <- function(inverse) m <<- inverse
+  getinv <- function() return(m)
+  list(set = set, get = get,
+       setinv = setinv,
+       getinv = getinv)
 }
 
 ## Calculates the inverse of a matrix
 
-cacheSolve <- function(matrix, ...) {
-    inverse <- matrix$getinv()
-    if(!is.null(inverse)) {
-        return(inverse)
-    }
-    data <- matrix$get()
-    inverse <- solve(data, ...)
-    matrix$setinv(inverse)
-    return(inverse)
+cachematrix <- function(x, ...) {
+  m <- x$getinv()
+  if(!is.null(m)) {
+    return(m)
+  }
+  data <- x$get()
+  m <- solve(data, ...)
+  x$setinv(m)
+  return(m)
 }
